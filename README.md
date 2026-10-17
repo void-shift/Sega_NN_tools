@@ -1,10 +1,11 @@
 # Sega NN Tools
 
-A Python library for Blender for games using Sega's NN libraries.
+A Python library for Blender for games using Sega's NN libraries. \
+Please don't use this codebase to train AI, make things using this with AI, or make modifications to this with AI. Thank you :)
 
 ## Requirements
  - Blender 4.1.1.
- - The files you want to import must not be packed.
+ - The files you want to import must not be compressed / packed.
 
 ## Installation
  1. [Download the plugin.](https://github.com/Argx2121/Sega_NN_tools/releases)
@@ -30,54 +31,22 @@ A Python library for Blender for games using Sega's NN libraries.
 
 ## Supported Game Formats
 
-### Cno
-#### The House of the Dead 4
-#### Sonic 4 Episode 1
-#### Sonic 4 Episode 2
+| Sno / PS2                                | Cno / PS3               | Uno / PSP                 | Gno / GameCube                  | Xno / Xbox             | Yno / Xbox | Eno / Xbox 360                              | Zno / DirectX 2              | Lno / Lindbergh                        | Ino / Mobile                        |
+|------------------------------------------|-------------------------|---------------------------|---------------------------------|------------------------|------------|---------------------------------------------|------------------------------|----------------------------------------|-------------------------------------|
+| Sonic Riders Zero Gravity                | The House of the Dead 4 | K-On! After School Live!! | Ghost Squad                     | Sonic Riders           |            | Sonic Free Riders                           | Sega Golden Gun              | Sonic 4 Episode 2                      | Sonic 4 Episode 1                   |
+| Sega Superstars                          | Sonic 4 Episode 1       |                           | Super Monkey Ball: Step & Roll  | Sonic (2006)           |            | Sonic the Hedgehog 4: Episode I (Prototype) | Sonic 4 Episode 1            | The House of the Dead 4                | Sonic 4 Episode 1 (Pre 2016 Update) |
+| Sega Ages 2500 Series Vol. 5: Golden Axe | Sonic 4 Episode 2       |                           | Sonic and the Black Knight      | Phantasy Star Universe |            |                                             | Transformers: Human Alliance | Loving Deads: The House of the Dead EX |                                     |
+|                                          |                         |                           | Sonic Unleashed                 |                        |            |                                             |                              |                                        |                                     |
+|                                          |                         |                           | Sonic Riders Zero Gravity       |                        |            |                                             |                              |                                        |                                     |
+|                                          |                         |                           | Sonic and the Secret Rings      |                        |            |                                             |                              |                                        |                                     |
+|                                          |                         |                           | Bleach: Shattered Blade         |                        |            |                                             |                              |                                        |                                     |
+|                                          |                         |                           | Super Monkey Ball: Banana Blitz |                        |            |                                             |                              |                                        |                                     |
+|                                          |                         |                           | Sonic Riders                    |                        |            |                                             |                              |                                        |                                     |
 
-### Eno
-#### Sonic Free Riders
-#### Sonic the Hedgehog 4: Episode I (Prototype)
-
-### Gno
-#### Ghost Squad
-#### Super Monkey Ball: Step & Roll
-#### Sonic and the Black Knight
-#### Sonic Unleashed
-#### Sonic Riders Zero Gravity
-#### Sonic and the Secret Rings
-#### Bleach: Shattered Blade
-#### Super Monkey Ball: Banana Blitz
-#### Sonic Riders
-
-### Ino
-#### Sonic 4 Episode 1
-#### Sonic 4 Episode 1 (Pre 2016 Update)
-
-### Lno
-#### Sonic 4 Episode 2
-#### The House of the Dead 4
-#### Loving Deads: The House of the Dead EX
-
-### Sno
- - Sno file importing is imperfect and may have issues.
-#### Sonic Riders Zero Gravity
-#### Sega Superstars
-#### Sega Ages 2500 Series Vol. 5: Golden Axe
-
-### Uno
-#### K-On! After School Live!!
-
-### Xno
-#### Sonic Riders
- - Some textures may be pink in blender - this is a known issue that doesn't otherwise influence how the addon functions.
-#### Sonic (2006)
-#### Phantasy Star Universe
-
-### Zno
-#### Sega Golden Gun
-#### Sonic 4 Episode 1
-#### Transformers: Human Alliance
+Regarding texture issues:
+- Pink textures mean that the image files is likely damaged or malformed
+- An image node without a texture means the image file could not be found. Occasionally the model file has incorrect texture names listed, but it may also be that the images need to be extracted.
+- The riders series stores texture information in a particular way for maps. Please use my tools file extractor after decompressing with a different tool to get that information.
 
 ## About
 
