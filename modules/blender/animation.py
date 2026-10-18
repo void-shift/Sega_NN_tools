@@ -258,6 +258,7 @@ class Animation:
         real_frame_end = self.animation.stop
         obj = obj_object.pose.bones
         obj2 = obj_object.data.bones
+        bone_names = ['"'+a.name+'"' for a in obj2]
 
         adjust_mat = []
         adjust_rot = []
@@ -296,6 +297,7 @@ class Animation:
             anim_data = anim.anim_data
             bone_index = anim.sub_index
             used_bones.add(bone_index)
+            bone_name = bone_names[bone_index]
             if anim_flag.rotate_x and anim_flag.rotate_y and anim_flag.rotate_z:
                 self.adjust_euler(anim_data, anim_interp, 1)
                 self.adjust_euler(anim_data, anim_interp, 2)
@@ -304,28 +306,28 @@ class Animation:
                 self.adjust_euler(anim_data, anim_interp, 1)
 
             self.anim_xyz([anim_flag.rotate_x, anim_flag.rotate_y, anim_flag.rotate_z], anim_data, anim_interp,
-                          o_action, 'pose.bones[' + str(bone_index) + '].rotation_euler')
+                          o_action, 'pose.bones[' + bone_name + '].rotation_euler')
 
             self.anim_xyz([anim_flag.move_x, anim_flag.move_y, anim_flag.move_z], anim_data, anim_interp,
-                          o_action, 'pose.bones[' + str(bone_index) + '].location')
+                          o_action, 'pose.bones[' + bone_name + '].location')
 
             self.anim_xyz([anim_flag.scale_x, anim_flag.scale_y, anim_flag.scale_z], anim_data, anim_interp,
-                          o_action, 'pose.bones[' + str(bone_index) + '].scale')
+                          o_action, 'pose.bones[' + bone_name + '].scale')
 
             self.rotation_quat(anim_flag.rotate_quat, anim_data, anim_interp, o_action,
-                               'pose.bones[' + str(bone_index) + '].rotation_quaternion')
+                               'pose.bones[' + bone_name + '].rotation_quaternion')
 
             # node specific
             if anim_flag.hide:
-                f_curve = o_action.fcurves.new('pose.bones[' + str(bone_index) + '].nn_hide')
+                f_curve = o_action.fcurves.new('pose.bones[' + bone_name + '].nn_hide')
                 for i, sub in enumerate(anim_data):
                     kf = f_curve.keyframe_points.insert(sub[0], bool(sub[1]), options={"FAST"})
                     self.check_interp(anim_interp, [kf], i, anim_data)
                 self.check_repeat(anim_interp, f_curve)
                 f_curve.update()
             elif anim_flag.user_uint32:
-                f_curve = self.get_curve(o_action, 'pose.bones[' + str(bone_index) + '].nn_user_int')
-                t_curve = self.get_curve(o_action, 'pose.bones[' + str(bone_index) + '].nn_user_type')
+                f_curve = self.get_curve(o_action, 'pose.bones[' + bone_name + '].nn_user_int')
+                t_curve = self.get_curve(o_action, 'pose.bones[' + bone_name + '].nn_user_type')
                 for i, sub in enumerate(anim_data):
                     t_curve.keyframe_points.insert(sub[0], 0, options={"FAST"})
                     kf = f_curve.keyframe_points.insert(sub[0], sub[1], options={"FAST"})
@@ -333,8 +335,8 @@ class Animation:
                 self.check_repeat(anim_interp, f_curve)
                 f_curve.update()
             elif anim_flag.user_float:
-                f_curve = self.get_curve(o_action, 'pose.bones[' + str(bone_index) + '].nn_user_float')
-                t_curve = self.get_curve(o_action, 'pose.bones[' + str(bone_index) + '].nn_user_type')
+                f_curve = self.get_curve(o_action, 'pose.bones[' + bone_name + '].nn_user_float')
+                t_curve = self.get_curve(o_action, 'pose.bones[' + bone_name + '].nn_user_type')
                 for i, sub in enumerate(anim_data):
                     t_curve.keyframe_points.insert(sub[0], 1, options={"FAST"})
                     kf = f_curve.keyframe_points.insert(sub[0], sub[1], options={"FAST"})
@@ -344,23 +346,24 @@ class Animation:
 
         # fix up for blender
         for bone_index in used_bones:
+            bone_name = bone_names[bone_index]
             rotation_order = obj[bone_index].nn_euler_rotation
-            r_curve_x = o_action.fcurves.find("pose.bones[" + str(bone_index) + "].rotation_euler", index=0)
-            r_curve_y = o_action.fcurves.find("pose.bones[" + str(bone_index) + "].rotation_euler", index=1)
-            r_curve_z = o_action.fcurves.find("pose.bones[" + str(bone_index) + "].rotation_euler", index=2)
+            r_curve_x = o_action.fcurves.find("pose.bones[" + bone_name + "].rotation_euler", index=0)
+            r_curve_y = o_action.fcurves.find("pose.bones[" + bone_name + "].rotation_euler", index=1)
+            r_curve_z = o_action.fcurves.find("pose.bones[" + bone_name + "].rotation_euler", index=2)
             rotation_data = []
-            p_curve_x = o_action.fcurves.find("pose.bones[" + str(bone_index) + "].location", index=0)
-            p_curve_y = o_action.fcurves.find("pose.bones[" + str(bone_index) + "].location", index=1)
-            p_curve_z = o_action.fcurves.find("pose.bones[" + str(bone_index) + "].location", index=2)
+            p_curve_x = o_action.fcurves.find("pose.bones[" + bone_name + "].location", index=0)
+            p_curve_y = o_action.fcurves.find("pose.bones[" + bone_name + "].location", index=1)
+            p_curve_z = o_action.fcurves.find("pose.bones[" + bone_name + "].location", index=2)
             position_data = []
-            s_curve_x = o_action.fcurves.find("pose.bones[" + str(bone_index) + "].scale", index=0)
-            s_curve_y = o_action.fcurves.find("pose.bones[" + str(bone_index) + "].scale", index=1)
-            s_curve_z = o_action.fcurves.find("pose.bones[" + str(bone_index) + "].scale", index=2)
+            s_curve_x = o_action.fcurves.find("pose.bones[" + bone_name + "].scale", index=0)
+            s_curve_y = o_action.fcurves.find("pose.bones[" + bone_name + "].scale", index=1)
+            s_curve_z = o_action.fcurves.find("pose.bones[" + bone_name + "].scale", index=2)
             scale_data = []
-            w_curve = o_action.fcurves.find("pose.bones[" + str(bone_index) + "].rotation_quaternion", index=0)
-            x_curve = o_action.fcurves.find("pose.bones[" + str(bone_index) + "].rotation_quaternion", index=1)
-            y_curve = o_action.fcurves.find("pose.bones[" + str(bone_index) + "].rotation_quaternion", index=2)
-            z_curve = o_action.fcurves.find("pose.bones[" + str(bone_index) + "].rotation_quaternion", index=3)
+            w_curve = o_action.fcurves.find("pose.bones[" + bone_name + "].rotation_quaternion", index=0)
+            x_curve = o_action.fcurves.find("pose.bones[" + bone_name + "].rotation_quaternion", index=1)
+            y_curve = o_action.fcurves.find("pose.bones[" + bone_name + "].rotation_quaternion", index=2)
+            z_curve = o_action.fcurves.find("pose.bones[" + bone_name + "].rotation_quaternion", index=3)
             p_fix_for_oob = (p_curve_x, p_curve_y, p_curve_z)
             r_fix_for_oob = (r_curve_x, r_curve_y, r_curve_z)
             s_fix_for_oob = (s_curve_x, s_curve_y, s_curve_z)
@@ -423,7 +426,7 @@ class Animation:
                     rot = Euler((x_value, y_value, z_value), rotation_order).to_quaternion()
                     rot.rotate(adjust_mat[bone_index])
                     rotation_data.append(rot)
-                data_path = "pose.bones[" + str(bone_index) + "].rotation_quaternion"
+                data_path = "pose.bones[" + bone_name + "].rotation_quaternion"
                 action = o_action
                 w_curve = action.fcurves.new(data_path, index=0)
                 x_curve = action.fcurves.new(data_path, index=1)

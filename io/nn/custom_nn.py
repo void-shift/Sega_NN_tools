@@ -277,9 +277,9 @@ def active_bone_anim_set(self, value):
             data_path = data_path[11::]
             if data_path[0] in {'"', "'"}:
                 splitter = data_path[0]
-                split_path = data_path.rsplit(splitter, maxsplit=1)
+                split_path = data_path[1::].rsplit(splitter, maxsplit=1)
                 bone_name = split_path[0]
-                bone_custom = split_path[1][1::]
+                bone_custom = split_path[1][2::]
                 if bone_custom in {'nn_hide'}:
                     setattr(obj.pose.bones[bone_name], bone_custom, False)
                 elif bone_custom in {'nn_user_type'}:
