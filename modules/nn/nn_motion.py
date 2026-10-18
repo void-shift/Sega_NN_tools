@@ -200,7 +200,11 @@ class Read:
             offset = animation_interp_flags >> 20 & 1
 
         start, stop = read_float_tuple(f, 2, endian)
-        sub_count, sub_offset = read_int_tuple(f, 2, endian)
+        if self.format_type == "SonicTheHedgehog4EpisodeI_I":
+            sub_count = read_int(f, endian)
+            sub_offset = unpack(endian + "Q", f.read(8))[0]
+        else:
+            sub_count, sub_offset = read_int_tuple(f, 2, endian)
         fps = read_float(f, endian)
         anim_info = AnimInfo(MotionInterp, start, stop, fps, [])
 
