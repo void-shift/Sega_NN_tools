@@ -113,8 +113,8 @@ class ImportSegaNM(bpy.types.Operator, ImportHelper):
 
         nn_format = self.nn_format
         layout.row().prop(self, "nn_format")
-        #if not nn_format.endswith("_"):
-        #    layout.row().prop(self, nn_format)
+        if not nn_format.endswith("_") and nn_format.endswith("I"):
+            layout.row().prop(self, nn_format)
 
         box = layout.box()
         box.label(text="Generic settings:", icon="KEYFRAME_HLT")
